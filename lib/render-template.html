@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            width: 100%;
+        }
+
+        /* Ensure pages break correctly for PDF */
+        .docx-wrapper {
+            background: white !important;
+            padding: 0 !important;
+        }
+
+        .docx-wrapper>section {
+            box-shadow: none !important;
+            margin-bottom: 0 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script>
+        // This function will be called by Puppeteer
+        async function renderDocx(arrayBuffer) {
+            const container = document.getElementById('container');
+            try {
+                await docx.renderAsync(arrayBuffer, container, container, {
+                    inWrapper: false, // Don't add extra wrapper
+                    ignoreWidth: false,
+                    ignoreHeight: false,
+                    ignoreFonts: false,
+                    breakPages: true,
+                    useBase64URL: true
+                });
+                return true;
+            } catch (e) {
+                console.error(e);
+                return false;
+            }
+        }
+    </script>
+</body>
+
+</html>
